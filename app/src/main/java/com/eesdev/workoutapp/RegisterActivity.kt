@@ -16,7 +16,7 @@ class RegisterActivity : AppCompatActivity() {
         val registerButton = findViewById<Button>(R.id.registerButton)
         val emailInput = findViewById<EditText>(R.id.emailText)
         val loginInput = findViewById<EditText>(R.id.passwordText)
-        val alreadyHaveAnAccountText = findViewById<TextView>(R.id.textViewAlreadyHaveAnAccount)
+        val loginText = findViewById<TextView>(R.id.textViewLogin)
 
         registerButton.setOnClickListener{
 
@@ -45,7 +45,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        alreadyHaveAnAccountText.setOnClickListener{
+        loginText.setOnClickListener{
             val intent = Intent(this@RegisterActivity, MainActivity::class.java)
             startActivity(intent)
         }
