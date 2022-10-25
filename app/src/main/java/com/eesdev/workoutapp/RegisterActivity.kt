@@ -3,6 +3,7 @@ package com.eesdev.workoutapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -15,34 +16,33 @@ class RegisterActivity : AppCompatActivity() {
 
         val registerButton = findViewById<Button>(R.id.registerButton)
         val emailInput = findViewById<EditText>(R.id.emailText)
-        val loginInput = findViewById<EditText>(R.id.passwordText)
+        val passwordInput = findViewById<EditText>(R.id.passwordText)
         val loginText = findViewById<TextView>(R.id.textViewLogin)
 
         registerButton.setOnClickListener{
-
-            // below we have created
-            // a new DBHelper class,
-            // and passed context to it
             val db = DatabaseHandler(this, null)
 
-            // creating variables for values
-            // in name and age edit texts
-            val emailText = emailInput.text.toString()
-            val passwordText = loginInput.text.toString()
+            val emailText = emailInput.text.toString().trim()
+            val passwordText = passwordInput.text.toString().trim()
 
-            // calling method to add
-            // name to our database
-            db.addUser(emailText, passwordText)
-
-            // Toast to message on the screen
-            Toast.makeText(this, "$emailText added to database", Toast.LENGTH_LONG).show()
-
-            // at last, clearing edit texts
-            emailInput.text.clear()
-            loginInput.text.clear()
-
-            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-            startActivity(intent)
+            if (emailText == "" || passwordText == "") {
+                Toast.makeText(this@RegisterActivity, "Fill all the fields", Toast.LENGTH_SHORT).show()
+            }
+            else if (!emailText.isValidEmail()) {
+                Toast.makeText(this@RegisterActivity, "Please enter a correct email", Toast.LENGTH_SHORT).show()
+            }
+            else if (!isValidPassword(passwordText)) {
+                Toast.makeText(this@RegisterActivity, "Please enter a correct password", Toast.LENGTH_SHORT).show()
+            }
+            else if (db.doesExist(emailText)) {
+                Toast.makeText(this@RegisterActivity, "This user already exists", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                db.addUser(emailText, passwordText)
+                Toast.makeText(this, "$emailText added to database", Toast.LENGTH_LONG).show()
+                val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         loginText.setOnClickListener{
@@ -50,36 +50,17 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /*
-        printName.setOnClickListener{
+    }
 
-            // creating a DBHelper class
-            // and passing context to it
-            val db = DatabaseHandler(this, null)
+    private fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
-            // below is the variable for cursor
-            // we have called method to get
-            // all names from our database
-            // and add to name text view
-            val cursor = db.getUser()
+    private fun isValidPassword(password: String): Boolean {
+        if (password.length < 8) return false
+        if (password.firstOrNull { it.isDigit() } == null) return false
+        if (password.filter { it.isLetter() }.firstOrNull { it.isUpperCase() } == null) return false
+        if (password.filter { it.isLetter() }.firstOrNull { it.isLowerCase() } == null) return false
+        if (password.firstOrNull { !it.isLetterOrDigit() } == null) return false
 
-            // moving the cursor to first position and
-            // appending value in the text view
-            cursor!!.moveToFirst()
-            Name.append(cursor.getString(cursor.getColumnIndex(DatabaseHandler.EMAIL_COL)) + "\n")
-            Age.append(cursor.getString(cursor.getColumnIndex(DatabaseHandler.PASSWORD_COl)) + "\n")
-
-            // moving our cursor to next
-            // position and appending values
-            while(cursor.moveToNext()){
-                Name.append(cursor.getString(cursor.getColumnIndex(DatabaseHandler.EMAIL_COL)) + "\n")
-                Age.append(cursor.getString(cursor.getColumnIndex(DatabaseHandler.PASSWORD_COl)) + "\n")
-            }
-
-            // at last we close our cursor
-            cursor.close()
-
-        }
-        */
+        return true
     }
 }

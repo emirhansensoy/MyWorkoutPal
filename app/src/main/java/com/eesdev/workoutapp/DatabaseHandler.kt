@@ -2,7 +2,6 @@ package com.eesdev.workoutapp
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -30,43 +29,33 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
 
     // This method is for adding data in our database
     fun addUser(email : String, password : String ){
-
-        // below we are creating
-        // a content values variable
         val values = ContentValues()
-
-        // we are inserting our values
-        // in the form of key-value pair
         values.put(EMAIL_COL, email)
         values.put(PASSWORD_COl, password)
 
-        // here we are creating a
-        // writable variable of
-        // our database as we want to
-        // insert value in our database
         val db = this.writableDatabase
-
-        // all values are inserted into database
         db.insert(TABLE_NAME, null, values)
-
-        // at last we are
-        // closing our database
         db.close()
     }
 
-    // below method is to get
-    // all data from our database
-    fun getUser(): Cursor? {
+    fun validateUser(email: String ,password: String): Boolean
+    {
+        val db = this.writableDatabase
+        val c = db.rawQuery("select * from user where email =" + "\""+ email.trim() + "\""+" and password="+ "\""+ password.trim() + "\"", null)
+        c.moveToFirst()
+        val i = c.count
+        c.close()
+        return i > 0
+    }
 
-        // here we are creating a readable
-        // variable of our database
-        // as we want to read value from it
-        val db = this.readableDatabase
-
-        // below code returns a cursor to
-        // read data from the database
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null)
-
+    fun doesExist(email: String): Boolean
+    {
+        val db = this.writableDatabase
+        val c = db.rawQuery("select * from user where email =" + "\""+ email.trim() + "\"", null)
+        c.moveToFirst()
+        val i = c.count
+        c.close()
+        return i > 0
     }
 
     fun clearDatabase(TABLE_NAME: String) {
@@ -76,22 +65,10 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object{
-        // here we have defined variables for our database
-
-        // below is variable for database name
         private val DATABASE_NAME = "workoutapp"
-
-        // below is the variable for database version
         private val DATABASE_VERSION = 1
-
-        // below is the variable for table name
         val TABLE_NAME = "user"
-
-        // below is the variable for id column
         val EMAIL_COL = "email"
-
-        // below is the variable for name column
         val PASSWORD_COl = "password"
-
     }
 }
