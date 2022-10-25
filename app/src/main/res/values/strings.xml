@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Workout App</string>
+    <string name="password_text">Password</string>
+    <string name="email_text">Email</string>
+    <string name="login_text">LOGIN</string>
+    <string name="dont_have_an_account_text">Don\'t have an account?</string>
+    <string name="already_have_an_account_text">Already have an account?</string>
+    <string name="sign_up_text">Sign Up</string>
+    <string name="login_text_register">Login</string>
+    <string name="register_text">SIGN UP</string>
 </resources>
