@@ -38,6 +38,62 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         db.close()
     }
 
+    fun addExercise(exerciseList : ArrayList<String>){
+        val db = this.writableDatabase
+        val query = ("CREATE TABLE IF NOT EXISTS exercises(id INTEGER PRIMARY KEY,name VARCHAR)")
+        val values=ContentValues()
+        var doesExist : Boolean
+        db.execSQL(query)
+        for(exercise in exerciseList){
+            values.put("name",exercise)
+            val c = db.rawQuery("select * from exercises where name =" + "\""+ exercise.trim() + "\"",null)
+            c.moveToFirst()
+            doesExist=c.count>0
+            if(doesExist){
+                //already exists
+            }
+            else{
+                db.insert("exercises",null,values)
+            }
+        }
+
+    }
+
+    fun deleteProgram(){
+        val db = this.writableDatabase
+        db.execSQL("DROP TABLE IF EXISTS program")
+    }
+
+    fun addToProgram(exerciseName : String , emailAddress : String , dayInput : String,exerciseSet : String,exerciseWeight : String ){
+        val db = this.writableDatabase
+        val query = ("CREATE TABLE IF NOT EXISTS program(id INTEGER PRIMARY KEY,name VARCHAR,email VARCHAR,day VARCHAR,sets VARCHAR,weight VARCHAR)")
+        db.execSQL(query)
+        val cursor = db.rawQuery("select * from program",null)
+        val emailIx=cursor.getColumnIndex("email")
+        val nameIx=cursor.getColumnIndex("name")
+        val dayIx=cursor.getColumnIndex("day")
+        var hasExercise = false
+        while(cursor.moveToNext()){
+            val email = cursor.getString(emailIx)
+            val name = cursor.getString(nameIx)
+            val day = cursor.getString(dayIx)
+
+            if(exerciseName == name && emailAddress == email && dayInput == day){
+                hasExercise = true
+            }
+        }
+        val values = ContentValues()
+        values.put("name",exerciseName)
+        values.put("email",emailAddress)
+        values.put("day",dayInput)
+        values.put("sets",exerciseSet)
+        values.put("weight",exerciseWeight)
+        if(!hasExercise){
+            println("girdi has exercise")
+            db.insert("program",null,values)
+        }
+    }
+
     fun validateUser(email: String ,password: String): Boolean
     {
         val db = this.writableDatabase

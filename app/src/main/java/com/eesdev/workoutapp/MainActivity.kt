@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                 // user successfully logged in
                 if (userPassCheckResult) {
                     val intent = Intent(this@MainActivity, ProgramActivity::class.java)
+                    intent.putExtra("email",email)
+                    intent.putExtra("day","Monday")
                     startActivity(intent)
                 }
                 else {
