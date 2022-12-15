@@ -19,11 +19,9 @@ class ExerciseAdapter (val exerciseList : ArrayList<String>,val email : String,v
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {
         val exerciseName = exerciseList.get(position)
         holder.binding.exerciseText.text=exerciseName
-        holder.itemView.setOnClickListener {
+        holder.binding.imageView.setOnClickListener {
             val intent = Intent(holder.itemView.context,AddExerciseActivity::class.java)
             intent.putExtra("name",exerciseName)
-            intent.putExtra("email",email)
-            intent.putExtra("day",day)
             holder.itemView.context.startActivity(intent)
         }
 

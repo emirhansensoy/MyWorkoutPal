@@ -2,8 +2,14 @@ package com.eesdev.workoutapp
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Debug
+import android.system.Os.uname
+
+
+
 
 class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -59,9 +65,31 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
 
     }
 
-    fun deleteProgram(){
+    fun deleteProgram( exercise : Exercise , email : String, day : String, context : Context){
         val db = this.writableDatabase
-        db.execSQL("DROP TABLE IF EXISTS program")
+        val query = "delete from program where email = ? and name = ? and day = ?"
+        db.execSQL(query,arrayOf<String>(email,exercise.exerciseName,day))
+        var intent = Intent(context,ProgramActivity::class.java)
+        context.startActivity(intent)
+
+
+    }
+
+    fun getExercises(email : String, day : String) : ArrayList<Exercise>{
+        val db = this.writableDatabase
+
+        val query = "select * from program where email = ? and day = ?"
+        val exercises = ArrayList<Exercise>()
+        val c = db.rawQuery(query, arrayOf<String>(email, day) )
+        val exerciseIx=c.getColumnIndex("name")
+        val exerciseSet=c.getColumnIndex("sets")
+        val exerciseWeight=c.getColumnIndex("weight")
+        while(c.moveToNext()){
+            val exercise = Exercise(c.getString(exerciseIx),c.getString(exerciseSet),c.getString(exerciseWeight))
+            println(c.getString(exerciseIx))
+            exercises.add(exercise)
+        }
+        return exercises
     }
 
     fun addToProgram(exerciseName : String , emailAddress : String , dayInput : String,exerciseSet : String,exerciseWeight : String ){

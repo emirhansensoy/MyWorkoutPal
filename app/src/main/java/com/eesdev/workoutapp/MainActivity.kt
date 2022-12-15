@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+var globalEmail : String = "email"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener{
             val email: String = emailText.text.toString().trim()
             val pass: String = passwordText.text.toString().trim()
+            globalEmail=email;
 
             if (email == "" || pass == "") {
                 Toast.makeText(this@MainActivity, "Fill all the fields", Toast.LENGTH_SHORT).show()
@@ -47,8 +49,6 @@ class MainActivity : AppCompatActivity() {
                 // user successfully logged in
                 if (userPassCheckResult) {
                     val intent = Intent(this@MainActivity, ProgramActivity::class.java)
-                    intent.putExtra("email",email)
-                    intent.putExtra("day","Monday")
                     startActivity(intent)
                 }
                 else {

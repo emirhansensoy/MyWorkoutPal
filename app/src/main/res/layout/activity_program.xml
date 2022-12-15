@@ -28,7 +28,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Pazartesi"
+                android:text="Monday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
 
@@ -39,7 +39,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Salı"
+                android:text="Tuesday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
 
@@ -50,7 +50,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Çarşamba"
+                android:text="Wednesday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
 
@@ -61,7 +61,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Perşembe"
+                android:text="Thursday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
 
@@ -72,7 +72,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Cuma"
+                android:text="Friday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
 
@@ -83,7 +83,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Cumartesi"
+                android:text="Saturday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
 
@@ -94,7 +94,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Pazar"
+                android:text="Sunday"
                 android:textAllCaps="false"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -104,12 +104,12 @@
         android:id="@+id/textViewProgram"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
-        android:text="Program"
+        android:text="Exercise"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:textStyle="italic"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
@@ -134,4 +134,33 @@
         android:text="Add Exercise"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textSet"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:text="Set"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerProgram"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <TextView
+        android:id="@+id/textWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:text="Weight"
+        android:textAlignment="viewStart"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerProgram"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
