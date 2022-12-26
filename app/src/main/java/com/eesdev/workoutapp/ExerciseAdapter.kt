@@ -1,12 +1,13 @@
 package com.eesdev.workoutapp
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eesdev.workoutapp.databinding.ExerciseRecyclerRowBinding
 
-class ExerciseAdapter (val exerciseList : ArrayList<String>,val email : String,val day : String) : RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder>() {
+class ExerciseAdapter (val exerciseMap : Map<String, String>,val email : String,val day : String) : RecyclerView.Adapter<ExerciseAdapter.ExerciseHolder>() {
     class ExerciseHolder(val binding : ExerciseRecyclerRowBinding) : RecyclerView.ViewHolder(binding.root){
 
     }
@@ -17,7 +18,8 @@ class ExerciseAdapter (val exerciseList : ArrayList<String>,val email : String,v
     }
 
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {
-        val exerciseName = exerciseList.get(position)
+        val exerciseName = exerciseMap.keys.toList()[position]
+        Log.d("msg", exerciseName)
         holder.binding.exerciseText.text=exerciseName
         holder.binding.imageView.setOnClickListener {
             val intent = Intent(holder.itemView.context,AddExerciseActivity::class.java)
@@ -28,6 +30,6 @@ class ExerciseAdapter (val exerciseList : ArrayList<String>,val email : String,v
     }
 
     override fun getItemCount(): Int {
-        return exerciseList.size
+        return exerciseMap.size
     }
 }

@@ -5,10 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.os.Debug
-import android.system.Os.uname
-
-
 
 
 class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) :
@@ -25,6 +21,16 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         // we are calling sqlite
         // method for executing our query
         db.execSQL(query)
+    }
+
+    fun createTables() {
+        val db = this.writableDatabase
+        val query = ("CREATE TABLE IF NOT EXISTS program(id INTEGER PRIMARY KEY,name VARCHAR,email VARCHAR,day VARCHAR,sets VARCHAR,weight VARCHAR,reps VARCHAR)")
+        val query1 = ("CREATE TABLE IF NOT EXISTS exercises(id INTEGER PRIMARY KEY, name VARCHAR, desc VARCHAR)")
+
+        //db.execSQL(query2)
+        db.execSQL(query)
+        db.execSQL(query1)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
@@ -44,15 +50,16 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         db.close()
     }
 
-    fun addExercise(exerciseList : ArrayList<String>){
+    fun addExercise(exerciseMap : Map<String, String>){
         val db = this.writableDatabase
-        val query = ("CREATE TABLE IF NOT EXISTS exercises(id INTEGER PRIMARY KEY,name VARCHAR)")
+        val query = ("CREATE TABLE IF NOT EXISTS exercises(id INTEGER PRIMARY KEY,name VARCHAR, desc VARCHAR)")
         val values=ContentValues()
         var doesExist : Boolean
         db.execSQL(query)
-        for(exercise in exerciseList){
-            values.put("name",exercise)
-            val c = db.rawQuery("select * from exercises where name =" + "\""+ exercise.trim() + "\"",null)
+        for(exercise in exerciseMap){
+            values.put("name",exercise.key)
+            values.put("desc",exercise.value)
+            val c = db.rawQuery("select * from exercises where name =" + "\""+ exercise.key.trim() + "\"",null)
             c.moveToFirst()
             doesExist=c.count>0
             if(doesExist){
@@ -61,15 +68,15 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
             else{
                 db.insert("exercises",null,values)
             }
+            c.close()
         }
-
     }
 
     fun deleteProgram( exercise : Exercise , email : String, day : String, context : Context){
         val db = this.writableDatabase
         val query = "delete from program where email = ? and name = ? and day = ?"
         db.execSQL(query,arrayOf<String>(email,exercise.exerciseName,day))
-        var intent = Intent(context,ProgramActivity::class.java)
+        val intent = Intent(context,ProgramActivity::class.java)
         context.startActivity(intent)
 
 
@@ -84,17 +91,33 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         val exerciseIx=c.getColumnIndex("name")
         val exerciseSet=c.getColumnIndex("sets")
         val exerciseWeight=c.getColumnIndex("weight")
+        val exerciseRep=c.getColumnIndex("reps")
         while(c.moveToNext()){
-            val exercise = Exercise(c.getString(exerciseIx),c.getString(exerciseSet),c.getString(exerciseWeight))
+            val exercise = Exercise(c.getString(exerciseIx),c.getString(exerciseSet),c.getString(exerciseWeight),c.getString(exerciseRep))
             println(c.getString(exerciseIx))
             exercises.add(exercise)
         }
+        c.close()
         return exercises
     }
 
-    fun addToProgram(exerciseName : String , emailAddress : String , dayInput : String,exerciseSet : String,exerciseWeight : String ){
+
+    fun getExerciseDesc(exerciseName: String): String
+    {
+        var text = "error"
         val db = this.writableDatabase
-        val query = ("CREATE TABLE IF NOT EXISTS program(id INTEGER PRIMARY KEY,name VARCHAR,email VARCHAR,day VARCHAR,sets VARCHAR,weight VARCHAR)")
+        val cursor = db.rawQuery("select * from exercises where name = \"" + exerciseName + "\"", null)
+        val index = cursor.getColumnIndex("desc")
+        while(cursor.moveToNext()){
+            text = cursor.getString(index)
+        }
+        cursor.close()
+        return text
+    }
+
+    fun addToProgram(exerciseName : String , emailAddress : String , dayInput : String,exerciseSet : String,exerciseWeight : String, exerciseRep: String){
+        val db = this.writableDatabase
+        val query = ("CREATE TABLE IF NOT EXISTS program(id INTEGER PRIMARY KEY,name VARCHAR,email VARCHAR,day VARCHAR,sets VARCHAR,weight VARCHAR, reps VARCHAR)")
         db.execSQL(query)
         val cursor = db.rawQuery("select * from program",null)
         val emailIx=cursor.getColumnIndex("email")
@@ -116,11 +139,14 @@ class DatabaseHandler(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         values.put("day",dayInput)
         values.put("sets",exerciseSet)
         values.put("weight",exerciseWeight)
+        values.put("reps",exerciseRep)
         if(!hasExercise){
             println("girdi has exercise")
             db.insert("program",null,values)
         }
+        cursor.close()
     }
+
 
     fun validateUser(email: String ,password: String): Boolean
     {
