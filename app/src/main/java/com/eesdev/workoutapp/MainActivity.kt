@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener{
             val email: String = emailText.text.toString().trim()
             val pass: String = passwordText.text.toString().trim()
-            globalEmail=email;
-
+            globalEmail=email
+            db.createTables()
             if (email == "" || pass == "") {
                 Toast.makeText(this@MainActivity, "Fill all the fields", Toast.LENGTH_SHORT).show()
             }

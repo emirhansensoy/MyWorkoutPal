@@ -2,7 +2,6 @@ package com.eesdev.workoutapp
 
 import android.content.Context
 import android.content.Intent
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +18,14 @@ class ProgramAdapter(val exerciseList : ArrayList<Exercise>,val email : String, 
     }
 
     override fun onBindViewHolder(holder: ProgramHolder, position: Int) {
-        var exerciseName=exerciseList.get(position).exerciseName
-        var exerciseSet=exerciseList.get(position).exerciseSet
-        var exerciseWeight=exerciseList.get(position).exerciseWeight
+        val exerciseName=exerciseList.get(position).exerciseName
+        val exerciseSet=exerciseList.get(position).exerciseSet
+        val exerciseWeight=exerciseList.get(position).exerciseWeight
+        val exerciseRep=exerciseList.get(position).exerciseRep
         holder.binding.exerciseNameText.text=exerciseName
         holder.binding.exerciseSetText.text=exerciseSet
         holder.binding.exerciseWeightText.text=exerciseWeight
+        holder.binding.exerciseRepText.text=exerciseRep
 
         holder.binding.deleteButton.setOnClickListener {
             val db = DatabaseHandler(holder.itemView.context,null)
@@ -32,6 +33,7 @@ class ProgramAdapter(val exerciseList : ArrayList<Exercise>,val email : String, 
         }
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context,ProgramDetail::class.java)
+            intent.putExtra("exerciseName", holder.binding.exerciseNameText.text.toString())
             holder.itemView.context.startActivity(intent)
         }
 

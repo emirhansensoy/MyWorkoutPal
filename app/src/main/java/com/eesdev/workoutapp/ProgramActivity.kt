@@ -95,7 +95,7 @@ class ProgramActivity : AppCompatActivity() {
         }
     }
     fun dayButton(day : String, binding : ActivityProgramBinding, email : String, context : Context ){
-        val intent = Intent(context,ProgramActivity::class.java);
+        val intent = Intent(context,ProgramActivity::class.java)
         globalDay = day
         context.startActivity(intent)
     }

@@ -3,7 +3,6 @@ package com.eesdev.workoutapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.eesdev.workoutapp.databinding.ActivityAddExerciseBinding
 
 class AddExerciseActivity : AppCompatActivity() {
@@ -18,7 +17,7 @@ class AddExerciseActivity : AppCompatActivity() {
 
         val db = DatabaseHandler(this,null)
         binding.buttonAdd.setOnClickListener {
-            db.addToProgram(binding.textExerciseName.text.toString(),globalEmail!!, globalDay!!,binding.inputSet.text.toString(),binding.inputWeight.text.toString())
+            db.addToProgram(binding.textExerciseName.text.toString(),globalEmail!!, globalDay!!,binding.inputSet.text.toString(),binding.inputWeight.text.toString(),binding.inputReps.text.toString())
             startActivity(intent)
         }
         binding.button.setOnClickListener {

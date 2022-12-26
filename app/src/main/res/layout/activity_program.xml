@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProgramActivity" >
+    android:background="#06283D"
+    tools:context=".ProgramActivity">
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -28,8 +29,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Monday"
+                android:text="MONDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
 
             <Button
@@ -39,8 +42,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Tuesday"
+                android:text="TUESDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
 
             <Button
@@ -50,8 +55,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Wednesday"
+                android:text="WEDNESDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
 
             <Button
@@ -61,8 +68,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Thursday"
+                android:text="THURSDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
 
             <Button
@@ -72,8 +81,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Friday"
+                android:text="FRIDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
 
             <Button
@@ -83,8 +94,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Saturday"
+                android:text="SATURDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
 
             <Button
@@ -94,8 +107,10 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/new_button"
-                android:text="Sunday"
+                android:text="SUNDAY"
                 android:textAllCaps="false"
+                android:textColor="#DFF6FF"
+                android:textColorHint="#256D85"
                 android:textSize="11sp" />
         </LinearLayout>
     </HorizontalScrollView>
@@ -106,8 +121,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
-        android:text="Exercise"
-        android:textColor="#000000"
+        android:text="EXERCISE"
+        android:textColor="#47B5FF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,12 +141,13 @@
 
     <Button
         android:id="@+id/buttonAddExercise"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
-        android:backgroundTint="#DFF6FF"
-        android:text="Add Exercise"
+        android:backgroundTint="#47B5FF"
+        android:text=" ADD EXERCISE"
+        android:textColor="#DFF6FF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -139,10 +155,12 @@
         android:id="@+id/textSet"
         android:layout_width="57dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
         android:text="Set"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="#000000"
+        android:textColor="#47B5FF"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recyclerProgram"
         app:layout_constraintEnd_toEndOf="parent"
@@ -150,14 +168,30 @@
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
     <TextView
+        android:id="@+id/textReps"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:text="Reps"
+        android:textAlignment="textStart"
+        android:textAllCaps="true"
+        android:textColor="#47B5FF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerProgram"
+        app:layout_constraintEnd_toStartOf="@+id/textWeight"
+        app:layout_constraintStart_toEndOf="@+id/textSet"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <TextView
         android:id="@+id/textWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="185dp"
         android:text="Weight"
-        android:textAlignment="viewStart"
+        android:textAlignment="textEnd"
         android:textAllCaps="true"
-        android:textColor="#000000"
+        android:textColor="#47B5FF"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recyclerProgram"
         app:layout_constraintEnd_toEndOf="parent"
